@@ -58,7 +58,7 @@ if __name__ == '__main__':
     s1 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
     print(s1[0:topK])
     stop = time.time()
-    print("Mean-Variance get top " + str(topK) + " collocations (s):", (stop - start))
+    print("Mean-Variance get top " + str(topK) + " collocations time (s):", (stop - start))
 
     # get bottom 20 
     start = time.time()
@@ -72,13 +72,13 @@ if __name__ == '__main__':
     s2 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=False)]
     print(s2[0:topK])
     stop = time.time()
-    print("Mean-Variance get bottom " + str(topK) + " collocations (s):", (stop - start))
+    print("Mean-Variance get bottom " + str(topK) + " collocations time (s):", (stop - start))
 
     start = time.time()
     pt = PrefixTree(wordsDict=mvDict)
     pt.buildPrefixTree()
     stop = time.time()
-    print("Mean-Variance build prefix tree (s)):", (stop - start))
+    print("Mean-Variance build prefix tree time (s):", (stop - start))
     print(pt.getRecommendations("k"))
 
     # Chi-Squared 
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     pt = PrefixTree(wordsDict=chiDict)
     pt.buildPrefixTree()
     stop = time.time()
-    print("Chi-Squared build prefix tree (s)):", (stop - start))
+    print("Chi-Squared build prefix tree time (s):", (stop - start))
 
     print(pt.getRecommendations("k"))
 
