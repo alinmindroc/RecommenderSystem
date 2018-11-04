@@ -1,3 +1,12 @@
+# coding: utf-8
+
+__author__ = "Ciprian-Octavian Truică"
+__copyright__ = "Copyright 2017, University Politehnica of Bucharest"
+__license__ = "GNU GPL"
+__version__ = "0.1"
+__email__ = "ciprian.truica@cs.pub.ro"
+__status__ = "Production"
+
 class ChiSquared(object):
     def __init__(self, sentences, ws = 5):
         self.sentences = sentences
