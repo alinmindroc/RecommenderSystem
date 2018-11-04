@@ -20,6 +20,11 @@ import time
 
 cachedStopWords_en = static.stopWordsEN()
 
+def testWord(word):
+    if word in cachedStopWords_en or not re.sub(r'\w*\d\w*', '', word) or len(word) < 3:
+        return False
+    return True
+
 if __name__ == '__main__':
     topK = int(sys.argv[1])
     files = sys.argv[2:]
@@ -31,11 +36,9 @@ if __name__ == '__main__':
     print("********************************")
 
     start = time.time()
-
     mv = MeanVariance(sentences)
     mv.build()
     mvDict = mv.getMVDict()
-
     stop = time.time()
     print("Mean-Variance build time (s):", (stop - start))
 
@@ -47,36 +50,36 @@ if __name__ == '__main__':
     d = {}
     for w1 in mvDict:
         for w2 in mvDict[w1]:
-            # do not take into account stopwords
-            if w1 not in cachedStopWords_en and w2 not in cachedStopWords_en:
+            # do not take into account s+topwords, words with length <3 and words that contain numbers
+            if testWord(w1) and testWord(w2):
                 d[str(w1) + " " + str(w2)] = mvDict[w1][w2]["variance"]
             
     
     s1 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(s1[0:    print(pt.getRecommendations("k"))])
+    print(s1[0:topK])
     stop = time.time()
-    print("Mean-Variance get top + " topK " + collocations (s):", (stop - start))
+    print("Mean-Variance get top " + str(topK) + " collocations (s):", (stop - start))
 
     # get bottom 20 
     start = time.time()
     d = {}
     for w1 in mvDict:
         for w2 in mvDict[w1]:
-            # do not take into account stopwords
-            if w1 not in cachedStopWords_en and w2 not in cachedStopWords_en:
+            # do not take into account s+topwords, words with length <3 and words that contain numbers
+            if testWord(w1) and testWord(w2):
                 d[str(w1) + " " + str(w2)] = mvDict[w1][w2]["variance"]
 
     s2 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=False)]
-    print(s2[0:])
+    print(s2[0:topK])
     stop = time.time()
-    print("Mean-Variance get bottom + " topK " + collocations (s):", (stop - start))
+    print("Mean-Variance get bottom " + str(topK) + " collocations (s):", (stop - start))
 
     start = time.time()
     pt = PrefixTree(wordsDict=mvDict)
     pt.buildPrefixTree()
-    print(pt.getRecommendations("k"))
     stop = time.time()
     print("Mean-Variance build prefix tree (s)):", (stop - start))
+    print(pt.getRecommendations("k"))
 
     # Chi-Squared 
     print("********************************")
@@ -100,28 +103,28 @@ if __name__ == '__main__':
     d = {}
     for w1 in chiDict:
         for w2 in chiDict[w1]:
-            # do not take into account stopwords
-            if w1 not in cachedStopWords_en and w2 not in cachedStopWords_en:
+            # do not take into account s+topwords, words with length <3 and words that contain numbers
+            if testWord(w1) and testWord(w2):
                 d[str(w1) + " " + str(w2)] = chiDict[w1][w2]["chisquared"]
             
     s1 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
     print(s1[0:topK])
     stop = time.time()
-    print("Chi-Squared get top + " topK " + collocations time (s):", (stop - start))
+    print("Chi-Squared get top " + str(topK) + " collocations time (s):", (stop - start))
     
     # get bottom 20 
     start = time.time()
     d = {}
     for w1 in chiDict:
         for w2 in chiDict[w1]:
-            # do not take into account stopwords
-            if w1 not in cachedStopWords_en and w2 not in cachedStopWords_en:
+            # do not take into account s+topwords, words with length <3 and words that contain numbers
+            if testWord(w1) and testWord(w2):
                 d[str(w1) + " " + str(w2)] = chiDict[w1][w2]["chisquared"]
 
     s2 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=False)]
     print(s2[0:topK])
     stop = time.time()
-    print("Chi-Squared get bottom + " topK " + collocations time (s):", (stop - start))
+    print("Chi-Squared get bottom " + str(topK) + " collocations time (s):", (stop - start))
 
     start = time.time()
     pt = PrefixTree(wordsDict=chiDict)

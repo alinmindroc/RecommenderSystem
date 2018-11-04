@@ -4,7 +4,11 @@ This code was written using python3.
 
 Test the collocation creation time from the root directory issue the following command:
 
-`python3 src/test.py datasets/hitchhiker.txt`
+python3 src/test.py top dataset
+
+E.g.:
+
+`python3 src/test.py 20 datasets/hitchhiker.txt`
 
 
 ### Python packages:
