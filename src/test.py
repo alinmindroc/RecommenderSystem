@@ -74,29 +74,29 @@ if __name__ == '__main__':
     stop = time.time()
     print("Mean-Variance get bottom " + str(topK) + " collocations time (s):", (stop - start))
 
-    # get Arthur
-    d = {}
-    for w2 in mvDict['arthur']:
-        if testWord(w2):
-            d["arthur " + str(w2)] = mvDict['arthur'][w2]["variance"]
-    sa = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(sa)
+    # # get Arthur
+    # d = {}
+    # for w2 in mvDict['arthur']:
+    #     if testWord(w2):
+    #         d["arthur " + str(w2)] = mvDict['arthur'][w2]["variance"]
+    # sa = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # print(sa)
     
-    # get Ford
-    d = {}
-    for w2 in mvDict['ford']:
-        if testWord(w2):
-            d["ford " + str(w2)] = mvDict['ford'][w2]["variance"]
-    sf = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(sf)
+    # # get Ford
+    # d = {}
+    # for w2 in mvDict['ford']:
+    #     if testWord(w2):
+    #         d["ford " + str(w2)] = mvDict['ford'][w2]["variance"]
+    # sf = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # print(sf)
 
-    # get Zaphod
-    d = {}
-    for w2 in mvDict['zaphod']:
-        if testWord(w2):
-            d["zaphod " + str(w2)] = mvDict['zaphod'][w2]["variance"]
-    sz = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(sz)
+    # # get Zaphod
+    # d = {}
+    # for w2 in mvDict['zaphod']:
+    #     if testWord(w2):
+    #         d["zaphod " + str(w2)] = mvDict['zaphod'][w2]["variance"]
+    # sz = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # print(sz)
 
     start = time.time()
     pt = PrefixTree(wordsDict=mvDict)
@@ -150,29 +150,29 @@ if __name__ == '__main__':
     stop = time.time()
     print("Chi-Squared get bottom " + str(topK) + " collocations time (s):", (stop - start))
 
-    # get Arthur
-    d = {}
-    for w2 in chiDict['arthur']:
-        if testWord(w2):
-            d["arthur " + str(w2)] = chiDict['arthur'][w2]["chisquared"]
-    sa = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(sa)
+    # # get Arthur
+    # d = {}
+    # for w2 in chiDict['arthur']:
+    #     if testWord(w2):
+    #         d["arthur " + str(w2)] = chiDict['arthur'][w2]["chisquared"]
+    # sa = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # print(sa)
     
-    # get Ford
-    d = {}
-    for w2 in chiDict['ford']:
-        if testWord(w2):
-            d["ford " + str(w2)] = chiDict['ford'][w2]["chisquared"]
-    sf = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(sf)
+    # # get Ford
+    # d = {}
+    # for w2 in chiDict['ford']:
+    #     if testWord(w2):
+    #         d["ford " + str(w2)] = chiDict['ford'][w2]["chisquared"]
+    # sf = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # print(sf)
 
-    # get Zaphod
-    d = {}
-    for w2 in chiDict['zaphod']:
-        if testWord(w2):
-            d["zaphod " + str(w2)] = chiDict['zaphod'][w2]["chisquared"]
-    sz = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(sz)
+    # # get Zaphod
+    # d = {}
+    # for w2 in chiDict['zaphod']:
+    #     if testWord(w2):
+    #         d["zaphod " + str(w2)] = chiDict['zaphod'][w2]["chisquared"]
+    # sz = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # print(sz)
 
     start = time.time()
     pt = PrefixTree(wordsDict=chiDict)
