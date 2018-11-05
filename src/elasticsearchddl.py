@@ -48,11 +48,11 @@ class ElasticsearchDDL(object):
                             { "span_term" : { "text" : "demonstrated" }}
                         ],
                         "slop" : 6,
-                        "in_order" : true}
+                        "in_order" : True}
                     },
                     "highlight": {"fields": {"text": {}}}
             },
-            size = 5)['hits']['hits']
+            size = 5)#['hits']['hits']
 
         # res.sort(key = lambda x: -x['_score'])
 
