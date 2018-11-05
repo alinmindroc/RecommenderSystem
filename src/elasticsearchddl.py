@@ -98,7 +98,7 @@ if __name__ == "__main__":
         # except:
         #     pass
 
-        res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
+        res = self.es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
         print(res)
 
 
