@@ -204,7 +204,7 @@ if __name__ == '__main__':
     res = es.selectByQuery(indexname="test-index")
     print(res)
 
-    res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
+    res = es.selectOneByID(indexname="test-index", doctype="_doc", id=1)
     print(res)
 
     w1, w2 = list(s1)[3].slit(" ")
