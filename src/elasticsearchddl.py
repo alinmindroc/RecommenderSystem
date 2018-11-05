@@ -102,12 +102,9 @@ if __name__ == "__main__":
         # print(res)
 
 
-        try:
-            res = es.searchByCollocation(indexname="test-index", w1="statistics", w2="demonstrated")
-            print(res)
-        except:
-            pass
-
+        res = es.searchByCollocation(indexname="test-index", w1="statistics", w2="demonstrated")
+        print(res)
+        
         # try:
         #     es.deleteIndex("test-index")
         # except:
