@@ -52,9 +52,7 @@ class ElasticsearchDDL(object):
                     },
                     "highlight": {"fields": {"text": {}}}
             },
-            size = 5)#['hits']['hits']
-
-        # res.sort(key = lambda x: -x['_score'])
+            size = 5)
 
         return res
 
@@ -75,37 +73,25 @@ if __name__ == "__main__":
     files = sys.argv[2:]
 
     if fileType == "csv":
-        # sentences, words, data = utils.readCsvFiles(files)
+        sentences, words, data = utils.readCsvFiles(files)
         es = ElasticsearchDDL()
-        # try:
-        #     es.deleteIndex("test-index")
-        # except:
-        #     pass
 
-        # try:
-        #     es.createIndex(indexname="test-index")
-        # except:
-        #     pass
+        es.deleteIndex("test-index")
 
-        # try:
-        #     es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
-        # except:
-        #     pass
+        es.createIndex(indexname="test-index")
+
+        es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
         
-        # try:
-        #     res = es.selectByQuery(indexname="test-index")
-        #     print(res)
-        # except:
-        #     pass
 
-        # res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
-        # print(res)
+        res = es.selectByQuery(indexname="test-index")
+        print(res)
+
+        res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
+        print(res)
 
 
         res = es.searchByCollocation(indexname="test-index", w1="statistics", w2="demonstrated")
         print(res)
         
-        # try:
-        #     es.deleteIndex("test-index")
-        # except:
-        #     pass
+        es.deleteIndex("test-index")
+        

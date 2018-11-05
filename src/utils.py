@@ -73,9 +73,14 @@ def readCsvFiles(uri):
 
 def processTxtElement(file):
     with open(file) as inFile:
+        document = {}
+        sentences = []
         data = inFile.read().replace('\n', ' ')
         cleanText, hashtags, attags = ct.cleanText(data)
-        return [ct.removePunctuation(sentence.lower()) for sentence in sent_tokenize(cleanText)]
+        document["title"] = "N/A"
+        document["text"] = cleanText
+        sentences = [ct.removePunctuation(sentence.lower()) for sentence in sent_tokenize(cleanText)]
+        return (document, sentences)
 
 def readTxtFiles(uri):
     filelist = []
@@ -89,20 +94,17 @@ def readTxtFiles(uri):
     if filelist:
         no_threads = int(cpu_count()-1)
         fullTexts = []
+        index = []
 
         with ProcessPoolExecutor(max_workers=no_threads) as worker:
             for result in worker.map(processTxtElement, filelist):
                 if result:
-                    fullTexts.extend(result)
-        # single thread version
-        # for file in filelist:
-        #     with open(file) as inFile:
-        #         data = inFile.read().replace('\n', ' ')
-        #         cleanText, hashtags, attags = ct.cleanText(data)
-        #         fullTexts.extend(list(map(lambda x: ct.removePunctuation(x.lower()), sent_tokenize(cleanText))))
+                    index.append(result[0])
+                    fullTexts.extend(result[1])
+                    
         sentences = [re.findall('\w+', line) for line in fullTexts]
         words = [word for sentence in sentences for word in sentence]
-        return sentences, words
+        return sentences, words, index
 
 if __name__ == "__main__":
     fileType = sys.argv[1] # txt, csv

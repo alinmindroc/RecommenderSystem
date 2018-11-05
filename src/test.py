@@ -16,6 +16,7 @@ from chisquared import ChiSquared
 from meanvariance import MeanVariance
 from prefixtree import PrefixTree
 import time
+from elasticsearchddl import ElasticsearchDDL
 
 
 cachedStopWords_en = static.stopWordsEN()
@@ -31,7 +32,9 @@ if __name__ == '__main__':
     files = sys.argv[3:]
 
     if fileType == "txt":
-        sentences, words = utils.readTxtFiles(files)
+        sentences, words, data = utils.readTxtFiles(files)
+    elif fileType == "csv":
+        sentences, words, data = utils.readCsvFiles(files)
 
     # mean-variance
     print("********************************")
@@ -185,4 +188,27 @@ if __name__ == '__main__':
 
     print(pt.getRecommendations("k"))
 
-    
+    print("********************************")
+    print("*          Chi-Squared         *")
+    print("********************************")
+
+    es = ElasticsearchDDL()
+
+    es.deleteIndex("test-index")
+
+    es.createIndex(indexname="test-index")
+
+    es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
+        
+
+    res = es.selectByQuery(indexname="test-index")
+    print(res)
+
+    res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
+    print(res)
+
+
+    res = es.searchByCollocation(indexname="test-index", w1="statistics", w2="demonstrated")
+    print(res)
+        
+    es.deleteIndex("test-index")
