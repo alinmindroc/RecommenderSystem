@@ -210,6 +210,7 @@ if __name__ == '__main__':
 
     print(list(s1)[3])
     w1, w2 = list(s1)[3][0].split(" ")
+    print(w1, w2)
 
     res = es.searchByCollocation(indexname="test-index", w1=w1, w2=w2)
     print(res)
