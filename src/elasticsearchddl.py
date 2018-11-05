@@ -63,7 +63,7 @@ class ElasticsearchDDL(object):
         return res
 
     def selectOneByID(self, indexname, doctype, id):
-        result = es.get(index=indexname, doc_type=doctype, id=id)['_source']
+        result = self.es.get(index=indexname, doc_type=doctype, id=id)['_source']
 
 
 
@@ -75,22 +75,22 @@ if __name__ == "__main__":
     files = sys.argv[2:]
 
     if fileType == "csv":
-        sentences, words, data = utils.readCsvFiles(files)
+        # sentences, words, data = utils.readCsvFiles(files)
         es = ElasticsearchDDL()
         # try:
         #     es.deleteIndex("test-index")
         # except:
         #     pass
 
-        try:
-            es.createIndex(indexname="test-index")
-        except:
-            pass
+        # try:
+        #     es.createIndex(indexname="test-index")
+        # except:
+        #     pass
 
-        try:
-            es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
-        except:
-            pass
+        # try:
+        #     es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
+        # except:
+        #     pass
         
         # try:
         #     res = es.selectByQuery(indexname="test-index")
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         # except:
         #     pass
 
-        res = self.es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
+        res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
         print(res)
 
 
