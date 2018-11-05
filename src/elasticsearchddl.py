@@ -75,22 +75,22 @@ if __name__ == "__main__":
     files = sys.argv[2:]
 
     if fileType == "csv":
-        # sentences, words, data = utils.readCsvFiles(files)
+        sentences, words, data = utils.readCsvFiles(files)
         es = ElasticsearchDDL()
-        # try:
-        #     es.deleteIndex("test-index")
-        # except:
-        #     pass
+        try:
+            es.deleteIndex("test-index")
+        except:
+            pass
 
-        # try:
-        #     es.createIndex(indexname="test-index")
-        # except:
-        #     pass
+        try:
+            es.createIndex(indexname="test-index")
+        except:
+            pass
 
-        # try:
-        #     es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
-        # except:
-        #     pass
+        try:
+            es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
+        except:
+            pass
         
         # try:
         #     res = es.selectByQuery(indexname="test-index")
