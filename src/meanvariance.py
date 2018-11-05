@@ -56,9 +56,10 @@ if __name__ == "__main__":
     import static
 
     cachedStopWords_en = static.stopWordsEN()
-
-    files = sys.argv[1:]
-    sentences, words = utils.readFile(files)
+    fileType = sys.argv[1]
+    files = sys.argv[2:]
+    if fileType == "txt":
+        sentences, words = utils.readTxtFiles(files)
     
     print("********************************")
     print("*         Mean-Variance        *")

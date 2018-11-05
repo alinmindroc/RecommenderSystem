@@ -16,17 +16,68 @@ from cleantext import CleanText
 import static
 from multiprocessing import cpu_count
 from concurrent.futures import ProcessPoolExecutor
+import csv
 
 cachedStopWords_en = static.stopWordsEN()
 ct = CleanText()
 
-def processElement(file):
+#this part is for reading the file
+
+
+def readCSVFile(filename):
+    with open(filename, 'r') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter = ",")     
+        h = next(spamreader) # get rid of the header
+        return [row for row in spamreader]
+
+def processCsvElement(elem):
+    document = {}
+    sentences = []
+    if len(elem) == 2:
+        document["title"] = elem[0].replace('\n', ' ')    
+        cleanText, hashtags, attags = ct.cleanText(elem[1].replace('\n', ' '))
+        document["text"] = cleanText
+        sentences = [ct.removePunctuation(sentence.lower()) for sentence in sent_tokenize(cleanText)]
+    return (document, sentences)
+
+
+def readCsvFiles(uri):
+    filelist = []
+
+    for mypath in uri:
+        if isdir(mypath):
+            filelist += [join(mypath, f) for f in listdir(mypath) if isfile(join(mypath, f))]
+        elif isfile(mypath):
+            filelist.append(mypath)
+
+    if filelist:
+        no_threads = int(cpu_count()-1)
+        documents = []
+        index = []
+        fullTexts = []
+
+        with ProcessPoolExecutor(max_workers=no_threads) as worker:
+            for result in worker.map(readCSVFile, filelist):
+                if result:
+                    documents.extend(result)
+
+        with ProcessPoolExecutor(max_workers=no_threads) as worker:
+            for result in worker.map(processCsvElement, documents):
+                if result:
+                    index.append(result[0])
+                    fullTexts.extend(result[1])
+        sentences = [re.findall('\w+', line) for line in fullTexts]
+        words = [word for sentence in sentences for word in sentence]
+        return sentences, words, index
+
+
+def processTxtElement(file):
     with open(file) as inFile:
         data = inFile.read().replace('\n', ' ')
         cleanText, hashtags, attags = ct.cleanText(data)
-        return list(map(lambda x: ct.removePunctuation(x.lower()), sent_tokenize(cleanText)))
+        return [ct.removePunctuation(sentence.lower()) for sentence in sent_tokenize(cleanText)]
 
-def readFile(uri):
+def readTxtFiles(uri):
     filelist = []
 
     for mypath in uri:
@@ -40,7 +91,7 @@ def readFile(uri):
         fullTexts = []
 
         with ProcessPoolExecutor(max_workers=no_threads) as worker:
-            for result in worker.map(processElement, filelist):
+            for result in worker.map(processTxtElement, filelist):
                 if result:
                     fullTexts.extend(result)
         # single thread version
@@ -49,12 +100,17 @@ def readFile(uri):
         #         data = inFile.read().replace('\n', ' ')
         #         cleanText, hashtags, attags = ct.cleanText(data)
         #         fullTexts.extend(list(map(lambda x: ct.removePunctuation(x.lower()), sent_tokenize(cleanText))))
-        sentences = [list(map(lambda x: x, re.findall('\w+', line))) for line in fullTexts]
+        sentences = [re.findall('\w+', line) for line in fullTexts]
         words = [word for sentence in sentences for word in sentence]
         return sentences, words
 
 if __name__ == "__main__":
-    uri = sys.argv[1:]
-    readFile(uri)
+    fileType = sys.argv[1] # txt, csv
+    uri = sys.argv[2:]
+    if fileType == "txt":
+        readTxtFiles(uri)
+    elif fileType == "csv":
+        readCsvFiles(uri)
+
 
 

@@ -27,8 +27,11 @@ def testWord(word):
 
 if __name__ == '__main__':
     topK = int(sys.argv[1])
-    files = sys.argv[2:]
-    sentences, words = utils.readFile(files)
+    fileType = sys.argv[2]
+    files = sys.argv[3:]
+
+    if fileType == "txt":
+        sentences, words = utils.readTxtFiles(files)
 
     # mean-variance
     print("********************************")

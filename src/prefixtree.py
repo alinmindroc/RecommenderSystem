@@ -73,8 +73,10 @@ if __name__ == '__main__':
     from chisquared import ChiSquared
     from meanvariance import MeanVariance
 
-    files = sys.argv[1:]
-    sentences, words = utils.readFile(files)
+    fileType = sys.argv[1]
+    files = sys.argv[2:]
+    if fileType == "txt":
+        sentences, words = utils.readTxtFiles(files)
 
     # Chi-Squared    
     cs = ChiSquared(sentences)
