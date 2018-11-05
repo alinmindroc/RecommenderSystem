@@ -33,6 +33,7 @@ class ElasticsearchDDL(object):
             if i % no == 0 or i == datadim:
                 self.es.bulk(index=indexname, body=bulk_data, refresh=True)
                 bulk_data = []
+            i += 1
 
 
     def searchByCollocation(self, indexname, w1, w2):
@@ -92,21 +93,21 @@ if __name__ == "__main__":
         except:
             pass
         
-        # try:
-        #     res = es.selectByQuery(indexname="test-index")
-        #     print(res)
-        # except:
-        #     pass
+        try:
+            res = es.selectByQuery(indexname="test-index")
+            print(res)
+        except:
+            pass
 
         res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
         print(res)
 
 
-        # try:
-        #     res = es.searchByCollocation(indexname="test-index", w1="decompositions", w2="graphs")
-        #     print(res)
-        # except:
-        #     pass
+        try:
+            res = es.searchByCollocation(indexname="test-index", w1="decompositions", w2="graphs")
+            print(res)
+        except:
+            pass
 
         # try:
         #     es.deleteIndex("test-index")
