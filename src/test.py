@@ -214,5 +214,3 @@ if __name__ == '__main__':
 
     res = es.searchByCollocation(indexname="test-index", w1=w1, w2=w2)
     print(res)
-        
-    es.deleteIndex("test-index")
