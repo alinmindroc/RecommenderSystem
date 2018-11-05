@@ -36,157 +36,157 @@ if __name__ == '__main__':
     elif fileType == "csv":
         sentences, words, data = utils.readCsvFiles(files)
 
-    # mean-variance
-    print("********************************")
-    print("*         Mean-Variance        *")
-    print("********************************")
+    # # mean-variance
+    # print("********************************")
+    # print("*         Mean-Variance        *")
+    # print("********************************")
 
-    start = time.time()
-    mv = MeanVariance(sentences)
-    mv.build()
-    mvDict = mv.getMVDict()
-    stop = time.time()
-    print("Mean-Variance build time (s):", (stop - start))
+    # start = time.time()
+    # mv = MeanVariance(sentences)
+    # mv.build()
+    # mvDict = mv.getMVDict()
+    # stop = time.time()
+    # print("Mean-Variance build time (s):", (stop - start))
 
-    # test get collocations
-    # print(mv.getCollocsCandidates("kid"))
+    # # test get collocations
+    # # print(mv.getCollocsCandidates("kid"))
 
-    # get top 20 
-    start = time.time()
-    d = {}
-    for w1 in mvDict:
-        for w2 in mvDict[w1]:
-            # do not take into account stopwords, words with length <3 and words that contain numbers
-            if testWord(w1) and testWord(w2):
-                d[str(w1) + " " + str(w2)] = mvDict[w1][w2]["variance"]
+    # # get top 20 
+    # start = time.time()
+    # d = {}
+    # for w1 in mvDict:
+    #     for w2 in mvDict[w1]:
+    #         # do not take into account stopwords, words with length <3 and words that contain numbers
+    #         if testWord(w1) and testWord(w2):
+    #             d[str(w1) + " " + str(w2)] = mvDict[w1][w2]["variance"]
             
     
-    s1 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(s1[0:topK])
-    stop = time.time()
-    print("Mean-Variance get top " + str(topK) + " collocations time (s):", (stop - start))
+    # s1 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # print(s1[0:topK])
+    # stop = time.time()
+    # print("Mean-Variance get top " + str(topK) + " collocations time (s):", (stop - start))
 
-    # get bottom 20 
-    start = time.time()
-    d = {}
-    for w1 in mvDict:
-        for w2 in mvDict[w1]:
-            # do not take into account stopwords, words with length <3 and words that contain numbers
-            if testWord(w1) and testWord(w2):
-                d[str(w1) + " " + str(w2)] = mvDict[w1][w2]["variance"]
-
-    s2 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=False)]
-    print(s2[0:topK])
-    stop = time.time()
-    print("Mean-Variance get bottom " + str(topK) + " collocations time (s):", (stop - start))
-
-    # # get Arthur
+    # # get bottom 20 
+    # start = time.time()
     # d = {}
-    # for w2 in mvDict['arthur']:
-    #     if testWord(w2):
-    #         d["arthur " + str(w2)] = mvDict['arthur'][w2]["variance"]
-    # sa = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    # print(sa)
+    # for w1 in mvDict:
+    #     for w2 in mvDict[w1]:
+    #         # do not take into account stopwords, words with length <3 and words that contain numbers
+    #         if testWord(w1) and testWord(w2):
+    #             d[str(w1) + " " + str(w2)] = mvDict[w1][w2]["variance"]
+
+    # s2 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=False)]
+    # print(s2[0:topK])
+    # stop = time.time()
+    # print("Mean-Variance get bottom " + str(topK) + " collocations time (s):", (stop - start))
+
+    # # # get Arthur
+    # # d = {}
+    # # for w2 in mvDict['arthur']:
+    # #     if testWord(w2):
+    # #         d["arthur " + str(w2)] = mvDict['arthur'][w2]["variance"]
+    # # sa = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # # print(sa)
     
-    # # get Ford
+    # # # get Ford
+    # # d = {}
+    # # for w2 in mvDict['ford']:
+    # #     if testWord(w2):
+    # #         d["ford " + str(w2)] = mvDict['ford'][w2]["variance"]
+    # # sf = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # # print(sf)
+
+    # # # get Zaphod
+    # # d = {}
+    # # for w2 in mvDict['zaphod']:
+    # #     if testWord(w2):
+    # #         d["zaphod " + str(w2)] = mvDict['zaphod'][w2]["variance"]
+    # # sz = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # # print(sz)
+
+    # start = time.time()
+    # pt = PrefixTree(wordsDict=mvDict)
+    # pt.buildPrefixTree()
+    # stop = time.time()
+    # print("Mean-Variance build prefix tree time (s):", (stop - start))
+    # print(pt.getRecommendations("k"))
+
+    # # Chi-Squared 
+    # print("********************************")
+    # print("*          Chi-Squared         *")
+    # print("********************************")
+
+    # start = time.time()
+
+    # cs = ChiSquared(sentences)
+    # cs.build()
+    # chiDict = cs.getChiDict()
+
+    # stop = time.time()
+    # print("Chi-Squared build time (s):", (stop - start))
+
+    # # test get collocations
+    # # print(cs.getCollocsCandidates("kid"))
+
+    # # get top 20 
+    # start = time.time()
     # d = {}
-    # for w2 in mvDict['ford']:
-    #     if testWord(w2):
-    #         d["ford " + str(w2)] = mvDict['ford'][w2]["variance"]
-    # sf = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    # print(sf)
-
-    # # get Zaphod
-    # d = {}
-    # for w2 in mvDict['zaphod']:
-    #     if testWord(w2):
-    #         d["zaphod " + str(w2)] = mvDict['zaphod'][w2]["variance"]
-    # sz = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    # print(sz)
-
-    start = time.time()
-    pt = PrefixTree(wordsDict=mvDict)
-    pt.buildPrefixTree()
-    stop = time.time()
-    print("Mean-Variance build prefix tree time (s):", (stop - start))
-    print(pt.getRecommendations("k"))
-
-    # Chi-Squared 
-    print("********************************")
-    print("*          Chi-Squared         *")
-    print("********************************")
-
-    start = time.time()
-
-    cs = ChiSquared(sentences)
-    cs.build()
-    chiDict = cs.getChiDict()
-
-    stop = time.time()
-    print("Chi-Squared build time (s):", (stop - start))
-
-    # test get collocations
-    # print(cs.getCollocsCandidates("kid"))
-
-    # get top 20 
-    start = time.time()
-    d = {}
-    for w1 in chiDict:
-        for w2 in chiDict[w1]:
-            # do not take into account stopwords, words with length <3 and words that contain numbers
-            if testWord(w1) and testWord(w2):
-                d[str(w1) + " " + str(w2)] = chiDict[w1][w2]["chisquared"]
+    # for w1 in chiDict:
+    #     for w2 in chiDict[w1]:
+    #         # do not take into account stopwords, words with length <3 and words that contain numbers
+    #         if testWord(w1) and testWord(w2):
+    #             d[str(w1) + " " + str(w2)] = chiDict[w1][w2]["chisquared"]
             
-    s1 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    print(s1[0:topK])
-    stop = time.time()
-    print("Chi-Squared get top " + str(topK) + " collocations time (s):", (stop - start))
+    # s1 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # print(s1[0:topK])
+    # stop = time.time()
+    # print("Chi-Squared get top " + str(topK) + " collocations time (s):", (stop - start))
     
-    # get bottom 20 
-    start = time.time()
-    d = {}
-    for w1 in chiDict:
-        for w2 in chiDict[w1]:
-            # do not take into account stopwords, words with length <3 and words that contain numbers
-            if testWord(w1) and testWord(w2):
-                d[str(w1) + " " + str(w2)] = chiDict[w1][w2]["chisquared"]
-
-    s2 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=False)]
-    print(s2[0:topK])
-    stop = time.time()
-    print("Chi-Squared get bottom " + str(topK) + " collocations time (s):", (stop - start))
-
-    # # get Arthur
+    # # get bottom 20 
+    # start = time.time()
     # d = {}
-    # for w2 in chiDict['arthur']:
-    #     if testWord(w2):
-    #         d["arthur " + str(w2)] = chiDict['arthur'][w2]["chisquared"]
-    # sa = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    # print(sa)
+    # for w1 in chiDict:
+    #     for w2 in chiDict[w1]:
+    #         # do not take into account stopwords, words with length <3 and words that contain numbers
+    #         if testWord(w1) and testWord(w2):
+    #             d[str(w1) + " " + str(w2)] = chiDict[w1][w2]["chisquared"]
+
+    # s2 = [(k, d[k]) for k in sorted(d, key=d.get, reverse=False)]
+    # print(s2[0:topK])
+    # stop = time.time()
+    # print("Chi-Squared get bottom " + str(topK) + " collocations time (s):", (stop - start))
+
+    # # # get Arthur
+    # # d = {}
+    # # for w2 in chiDict['arthur']:
+    # #     if testWord(w2):
+    # #         d["arthur " + str(w2)] = chiDict['arthur'][w2]["chisquared"]
+    # # sa = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # # print(sa)
     
-    # # get Ford
-    # d = {}
-    # for w2 in chiDict['ford']:
-    #     if testWord(w2):
-    #         d["ford " + str(w2)] = chiDict['ford'][w2]["chisquared"]
-    # sf = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    # print(sf)
+    # # # get Ford
+    # # d = {}
+    # # for w2 in chiDict['ford']:
+    # #     if testWord(w2):
+    # #         d["ford " + str(w2)] = chiDict['ford'][w2]["chisquared"]
+    # # sf = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # # print(sf)
 
-    # # get Zaphod
-    # d = {}
-    # for w2 in chiDict['zaphod']:
-    #     if testWord(w2):
-    #         d["zaphod " + str(w2)] = chiDict['zaphod'][w2]["chisquared"]
-    # sz = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
-    # print(sz)
+    # # # get Zaphod
+    # # d = {}
+    # # for w2 in chiDict['zaphod']:
+    # #     if testWord(w2):
+    # #         d["zaphod " + str(w2)] = chiDict['zaphod'][w2]["chisquared"]
+    # # sz = [(k, d[k]) for k in sorted(d, key=d.get, reverse=True)]
+    # # print(sz)
 
-    start = time.time()
-    pt = PrefixTree(wordsDict=chiDict)
-    pt.buildPrefixTree()
-    stop = time.time()
-    print("Chi-Squared build prefix tree time (s):", (stop - start))
+    # start = time.time()
+    # pt = PrefixTree(wordsDict=chiDict)
+    # pt.buildPrefixTree()
+    # stop = time.time()
+    # print("Chi-Squared build prefix tree time (s):", (stop - start))
 
-    print(pt.getRecommendations("k"))
+    # print(pt.getRecommendations("k"))
 
     print("********************************")
     print("*        Elasticsearch         *")
@@ -208,7 +208,9 @@ if __name__ == '__main__':
     res = es.selectOneByID(indexname="test-index", doctype="_doc", id=1)
     print(res)
 
+    print(list(s1)[3])
     w1, w2 = list(s1)[3].split(" ")
+
     res = es.searchByCollocation(indexname="test-index", w1=w1, w2=w2)
     print(res)
         
