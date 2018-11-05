@@ -194,7 +194,8 @@ if __name__ == '__main__':
 
     es = ElasticsearchDDL()
 
-    es.deleteIndex("test-index")
+    if es.indexEsists("test-index"):
+        es.deleteIndex("test-index")
 
     es.createIndex(indexname="test-index")
 
@@ -207,7 +208,7 @@ if __name__ == '__main__':
     res = es.selectOneByID(indexname="test-index", doctype="_doc", id=1)
     print(res)
 
-    w1, w2 = list(s1)[3].slit(" ")
+    w1, w2 = list(s1)[3].split(" ")
     res = es.searchByCollocation(indexname="test-index", w1=w1, w2=w2)
     print(res)
         

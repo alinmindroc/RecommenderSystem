@@ -63,7 +63,8 @@ class ElasticsearchDDL(object):
     def selectOneByID(self, indexname, doctype, id):
         result = self.es.get(index=indexname, doc_type=doctype, id=id)['_source']
 
-
+    def indexEsists(self, indexname):
+        return self.es.indices.exists(index=indexname)
 
 if __name__ == "__main__":
     import sys
@@ -75,8 +76,8 @@ if __name__ == "__main__":
     if fileType == "csv":
         sentences, words, data = utils.readCsvFiles(files)
         es = ElasticsearchDDL()
-
-        es.deleteIndex("test-index")
+        if es.indexEsists("test-index"):
+            es.deleteIndex("test-index")
 
         es.createIndex(indexname="test-index")
 
