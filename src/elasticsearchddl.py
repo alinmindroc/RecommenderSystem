@@ -30,7 +30,7 @@ class ElasticsearchDDL(object):
             }
             bulk_data.append(op_dict)
             bulk_data.append(data_dict)
-            if i % no == 0 or i == datadim:
+            if i % no == 0 or i == datadim - 1:
                 self.es.bulk(index=indexname, body=bulk_data, refresh=True)
                 bulk_data = []
             i += 1
