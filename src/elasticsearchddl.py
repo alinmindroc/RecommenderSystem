@@ -44,14 +44,13 @@ class ElasticsearchDDL(object):
                 "query": {
                     "span_near" : {
                         "clauses": [
-                            { "span_term" : { "text" : w1 }},
-                            { "span_term" : { "text" : w2 }}
+                            { "span_term" : { "text" : "statistics" }},
+                            { "span_term" : { "text" : "demonstrated" }}
                         ],
                         "slop" : 6,
-                        "in_order" : True,
-                        "collect_payloads" : True}
+                        "in_order" : true}
                     },
-                "highlight": {"fields": {"text": {}}}
+                    "highlight": {"fields": {"text": {}}}
             },
             size = 5)['hits']['hits']
 
@@ -78,33 +77,33 @@ if __name__ == "__main__":
     if fileType == "csv":
         sentences, words, data = utils.readCsvFiles(files)
         es = ElasticsearchDDL()
-        try:
-            es.deleteIndex("test-index")
-        except:
-            pass
+        # try:
+        #     es.deleteIndex("test-index")
+        # except:
+        #     pass
 
-        try:
-            es.createIndex(indexname="test-index")
-        except:
-            pass
+        # try:
+        #     es.createIndex(indexname="test-index")
+        # except:
+        #     pass
 
-        try:
-            es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
-        except:
-            pass
+        # try:
+        #     es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
+        # except:
+        #     pass
         
+        # try:
+        #     res = es.selectByQuery(indexname="test-index")
+        #     print(res)
+        # except:
+        #     pass
+
+        # res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
+        # print(res)
+
+
         try:
-            res = es.selectByQuery(indexname="test-index")
-            print(res)
-        except:
-            pass
-
-        res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
-        print(res)
-
-
-        try:
-            res = es.searchByCollocation(indexname="test-index", w1="decompositions", w2="graphs")
+            res = es.searchByCollocation(indexname="test-index", w1="statistics", w2="demonstrated")
             print(res)
         except:
             pass
