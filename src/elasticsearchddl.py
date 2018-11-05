@@ -52,7 +52,7 @@ class ElasticsearchDDL(object):
                     },
                     "highlight": {"fields": {"text": {}}}
             },
-            size = 5)#['hits']['hits']
+            size = 5)['hits']['hits']
 
         # res.sort(key = lambda x: -x['_score'])
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     files = sys.argv[2:]
 
     if fileType == "csv":
-        sentences, words, data = utils.readCsvFiles(files)
+        # sentences, words, data = utils.readCsvFiles(files)
         es = ElasticsearchDDL()
         # try:
         #     es.deleteIndex("test-index")
