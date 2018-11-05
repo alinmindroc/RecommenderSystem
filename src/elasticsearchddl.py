@@ -52,9 +52,9 @@ class ElasticsearchDDL(object):
                     },
                     "highlight": {"fields": {"text": {}}}
             },
-            size = 5)['hits']['hits']
+            size = 5)#['hits']['hits']
 
-        res.sort(key = lambda x: -x['_score'])
+        # res.sort(key = lambda x: -x['_score'])
 
         return res
 
