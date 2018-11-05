@@ -189,7 +189,7 @@ if __name__ == '__main__':
     print(pt.getRecommendations("k"))
 
     print("********************************")
-    print("*          Chi-Squared         *")
+    print("*        Elasticsearch         *")
     print("********************************")
 
     es = ElasticsearchDDL()
@@ -207,8 +207,8 @@ if __name__ == '__main__':
     res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
     print(res)
 
-
-    res = es.searchByCollocation(indexname="test-index", w1="statistics", w2="demonstrated")
+    w1, w2 = list(s1)[3].slit(" ")
+    res = es.searchByCollocation(indexname="test-index", w1=w1, w2=w2)
     print(res)
         
     es.deleteIndex("test-index")
