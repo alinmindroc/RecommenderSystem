@@ -53,8 +53,8 @@ class ElasticsearchDDL(object):
                 "query": {
                     "span_near" : {
                         "clauses": [
-                            { "span_term" : { "text" : "statistics" }},
-                            { "span_term" : { "text" : "demonstrated" }}
+                            { "span_term" : { "text" : w1 }},
+                            { "span_term" : { "text" : w2 }}
                         ],
                         "slop" : 6,
                         "in_order" : True}

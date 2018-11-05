@@ -36,7 +36,7 @@ def processCsvElement(elem):
     if len(elem) == 2:
         document["title"] = elem[0].replace('\n', ' ')    
         cleanText, hashtags, attags = ct.cleanText(elem[1].replace('\n', ' '))
-        document["text"] = cleanText
+        document["text"] = cleanText.lower()
         sentences = [ct.removePunctuation(sentence.lower()) for sentence in sent_tokenize(cleanText)]
     return (document, sentences)
 
@@ -78,7 +78,7 @@ def processTxtElement(file):
         data = inFile.read().replace('\n', ' ')
         cleanText, hashtags, attags = ct.cleanText(data)
         document["title"] = "N/A"
-        document["text"] = cleanText
+        document["text"] = cleanText.lower()
         sentences = [ct.removePunctuation(sentence.lower()) for sentence in sent_tokenize(cleanText)]
         return (document, sentences)
 
@@ -101,7 +101,7 @@ def readTxtFiles(uri):
                 if result:
                     index.append(result[0])
                     fullTexts.extend(result[1])
-                    
+
         sentences = [re.findall('\w+', line) for line in fullTexts]
         words = [word for sentence in sentences for word in sentence]
         return sentences, words, index
