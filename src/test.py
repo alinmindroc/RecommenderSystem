@@ -208,8 +208,8 @@ if __name__ == '__main__':
     res = es.selectOneByID(indexname="test-index", doctype="_doc", id=1)
     print(res)
 
-    print(list(s2)[1000])
-    w1, w2 = list(s2)[1000][0].split(" ")
+    print(list(s1)[0])
+    w1, w2 = list(s1)[0][0].split(" ")
     print(w1, w2)
 
     res = es.searchByCollocation(indexname="test-index", w1=w1, w2=w2)
