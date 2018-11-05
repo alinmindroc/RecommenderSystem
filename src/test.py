@@ -27,8 +27,8 @@ def testWord(word):
     return True
 
 if __name__ == '__main__':
-    topK = int(sys.argv[1])
-    fileType = sys.argv[2]
+    fileType = sys.argv[1]
+    topK = int(sys.argv[2])    
     files = sys.argv[3:]
 
     if fileType == "txt":
