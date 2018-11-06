@@ -12,7 +12,7 @@ from datetime import datetime
 
 class ElasticsearchDDL(object):
     def __init__(self, host='localhost', port='9200'):
-        self.es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+        self.es = Elasticsearch([{'host': 'localhost', 'port': 9200}], timeout=100)
 
     def createIndex(self, indexname):
         self.es.indices.create(index=indexname)
