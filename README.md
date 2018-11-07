@@ -1,8 +1,9 @@
 # Collocation detector for recommander systems
 
 This code was written using python3.
+You will also need an Elasticsearch server running either localy of in the Cloud.
 
-Test the collocation creation time from the root directory issue the following command:
+To the the system locally, from the root directory issue the following command:
 
 `python3 test.py filetype top dataset [dataset]`
 

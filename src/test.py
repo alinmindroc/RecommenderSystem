@@ -1,5 +1,24 @@
 # coding: utf-8
 
+"""
+ *
+ * Copyright (C) 2018 Ciprian-Octavian Truică <ciprian.truica@cs.pub.ro>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+"""
+
 __author__ = "Ciprian-Octavian Truică"
 __copyright__ = "Copyright 2017, University Politehnica of Bucharest"
 __license__ = "GNU GPL"
@@ -48,6 +67,8 @@ if __name__ == '__main__':
     stop = time.time()
     print("Mean-Variance build time (s):", (stop - start))
 
+    # save mean-variance dictionary to file
+    mv.saveToFile("mvdict.json")
     # test get collocations
     # print(mv.getCollocsCandidates("kid"))
 
@@ -111,6 +132,9 @@ if __name__ == '__main__':
     print("Mean-Variance build prefix tree time (s):", (stop - start))
     print(pt.getRecommendations("k"))
 
+    # save prefix tree build with mean-variance to file
+    pt.saveToFile("mvtree.json")
+
     # Chi-Squared 
     print("********************************")
     print("*          Chi-Squared         *")
@@ -121,9 +145,11 @@ if __name__ == '__main__':
     cs = ChiSquared(sentences)
     cs.build()
     chiDict = cs.getChiDict()
-
     stop = time.time()
     print("Chi-Squared build time (s):", (stop - start))
+
+    # save chi-squared dictionary to file
+    cs.saveToFile("chidict.json")
 
     # test get collocations
     # print(cs.getCollocsCandidates("kid"))
@@ -187,6 +213,9 @@ if __name__ == '__main__':
     print("Chi-Squared build prefix tree time (s):", (stop - start))
 
     print(pt.getRecommendations("k"))
+
+    # save prefix tree build with chi-squared to file
+    pt.saveToFile("cstree.json")
 
     print("********************************")
     print("*        Elasticsearch         *")
