@@ -11,7 +11,6 @@ To the the system locally, from the root directory issue the following command:
 - top is the number for extracting the top and bottom collocations
 - dataset is the file name of path to files
 
-
 E.g.:
 
 `python3 src/test.py txt 20 datasets/hitchhiker.txt`
