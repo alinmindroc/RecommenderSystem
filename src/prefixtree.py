@@ -27,9 +27,10 @@ __email__ = "ciprian.truica@cs.pub.ro"
 __status__ = "Production"
 
 class PrefixTree(object):
-    def __init__(self, wordsDict):
-        self.wordsDict = wordsDict
-        self.words = self.wordsDict.keys()
+    def __init__(self, wordsDict = None):
+        if wordsDict:
+            self.wordsDict = wordsDict
+            self.words = self.wordsDict.keys()
         self.tree = dict()
         self.end = '_end_'
 
@@ -88,11 +89,14 @@ class PrefixTree(object):
         with open(filename, 'w') as f:
             ujson.dump(self.tree, f)
 
+    def loadFromJson(self, jsonContent):
+        self.tree = jsonContent
+
 # this part is just for individual testing
 if __name__ == '__main__':
     import sys
     import re
-    import ujson    
+    import ujson
     import utils
     from chisquared import ChiSquared
     from meanvariance import MeanVariance
@@ -102,7 +106,7 @@ if __name__ == '__main__':
     if fileType == "txt":
         sentences, words = utils.readTxtFiles(files)
 
-    # Chi-Squared    
+    # Chi-Squared
     cs = ChiSquared(sentences)
     cs.build()
     chiDict = cs.getChiDict()

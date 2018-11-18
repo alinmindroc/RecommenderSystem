@@ -216,30 +216,22 @@ if __name__ == '__main__':
 
     # save prefix tree build with chi-squared to file
     pt.saveToFile("cstree.json")
-
+    
     print("********************************")
     print("*        Elasticsearch         *")
     print("********************************")
 
     es = ElasticsearchDDL()
 
-    if es.indexEsists("test-index"):
+    if es.indexExists("test-index"):
         es.deleteIndex("test-index")
 
     es.createIndex(indexname="test-index")
 
-    es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
-        
+    sentences = [' '.join(s) for s in sentences]
+
+    es.bulkInsert(indexname="test-index", doctype="_doc", data=sentences, no=10000)
 
     res = es.selectByQuery(indexname="test-index")
-    print(res)
 
     res = es.selectOneByID(indexname="test-index", doctype="_doc", id=1)
-    print(res)
-
-    print(list(s1)[0])
-    w1, w2 = list(s1)[0][0].split(" ")
-    print(w1, w2)
-
-    res = es.searchByCollocation(indexname="test-index", w1=w1, w2=w2)
-    print(res)

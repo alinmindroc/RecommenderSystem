@@ -20,7 +20,9 @@ E.g.:
 * nltk
 * stop_words
 
+### Running the demo web app:
+The demo application gathers all sentences in a given text and bulk inserts them into an ElasticSearch index. The chi-squared and mean-variance methods can be tested then by querying the index with generated word pairs.
 
-
-
+- run src/test.py as mentioned previously. This will populate a local elasticsearch cluster with sentences and generate the prefix trees and dictionaries containing chi-squared and variance scores for all word pairs
+- run server.py, which will open a web interface at http://0.0.0.0:5000/
 

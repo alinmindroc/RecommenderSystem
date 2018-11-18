@@ -1,0 +1,98 @@
+<!doctype html>
+<html ng-app="ui.bootstrap.demo">
+<head>
+	<script src="jquery-2.2.1.min.js"></script>
+	<script src="angular.js"></script>
+	<script src="angular-animate.js"></script>
+	<script src="ui-bootstrap-tpls-1.2.1.min.js"></script>
+	<link href="bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<script src="app.js"></script>
+</head>
+<body>
+	<div class='container-fluid typeahead-demo' ng-controller="TypeaheadCtrl">
+		<center><h1>Side-by-side comparison of suggestion algorithms</h1></center>
+		<hr>
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Chi-squared</h3>
+				<hr>
+				<p>
+					Searches through a text corpus by looking only at the previous and next word for
+					<b><i uib-popover="Bigram: a sequence of two adjacent elements in a string of tokens" popover-trigger="mouseenter">bigrams</i></b>
+				</p>
+				<p>
+					The quick brown
+					<span class="red-1">fox</span>
+					<span class="red-0">jumps</span>
+					<span class="red-1">over</span>
+					the lazy dog
+				</p>
+				<input
+				type="text"
+				ng-trim="false"
+				placeholder="Search"
+				id="searchChi"
+				ng-model="chiModel"
+				ng-change="onChangeChi()"
+				uib-typeahead="address for address in getChi($viewValue)"
+				typeahead-loading="loadingLocations"
+				typeahead-on-select="onSelectChi($item, $model, $label)"
+				class="form-control">
+
+				<br>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="article in chiArticles">
+						<h4>
+							<span ng-bind-html="getHtmlTitle(article)"></span>
+						</h4>
+					</li>
+				</ul>
+				<div ng-show="chiArticles.length == 0 && chiModel.length != 0">No results for <i>{{chiModel}}</i></div>
+			</div>
+			<div class="col-sm-6">
+				<h3>Mean-variance</h3>
+				<hr>
+				<p>
+					Searches through a text corpus by looking at a whole sliding window for
+					<b><i uib-popover="Collocation: a sequence of words that co-occur more often than would be expected by chance" popover-trigger="mouseenter">collocations</i></b>
+				</p>
+				<p>
+					The
+					<span class="red-3">quick</span>
+					<span class="red-2">brown</span>
+					<span class="red-1">fox</span>
+					<span class="red-0">jumps</span>
+					<span class="red-1">over</span>
+					<span class="red-2">the</span>
+					<span class="red-3">lazy</span>
+					dog
+				</p>
+				<input
+				type="text"
+				ng-trim="false"
+				placeholder="Search"
+				id="searchMv"
+				ng-model="mvModel"
+				ng-change="onChangeMv()"
+				uib-typeahead="address for address in getMv($viewValue)"
+				typeahead-loading="loadingLocations"
+				typeahead-on-select="onSelectMv($item, $model, $label)"
+				class="form-control">
+
+				<br>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="article in mvArticles">
+						<h4>
+							<span ng-bind-html="getHtmlTitle(article)"></span>
+						</h4>
+					</li>
+				</ul>
+				<div ng-show="mvArticles.length == 0 && mvModel.length != 0">No results for <i>{{mvModel}}</i></div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

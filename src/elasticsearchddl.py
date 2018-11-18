@@ -45,10 +45,16 @@ class ElasticsearchDDL(object):
         i = 0
         for elem in data:
             data_dict = {
-                "id": i, 
-                "title": elem["title"],
-                "text": elem["text"]
+                "id": i
             }
+            if type(elem) is dict:
+                if "title" in elem:
+                    data_dict["title"] = elem["title"]
+                if "text" in elem:
+                    data_dict["text"] = elem["text"]
+            else:
+                data_dict["text"] = elem
+
             op_dict = {
                 "index": {
                     "_index": indexname,
@@ -63,9 +69,8 @@ class ElasticsearchDDL(object):
                 bulk_data = []
             i += 1
 
-
     def searchByCollocation(self, indexname, w1, w2):
-        res = self.es.search(
+        return self.es.search(
             index = indexname,
             body =
             {
@@ -82,7 +87,25 @@ class ElasticsearchDDL(object):
             },
             size = 5)
 
-        return res
+    def searchByBigram(self, indexname, bigram):
+        return self.es.search(
+            index = indexname,
+            body = {
+                "query": {
+                    "multi_match": {
+                        "query": bigram,
+                        "type": "phrase",
+                        "fields": [ "text" ]
+                    }
+                },
+                "highlight": {
+                    "fields": {
+                        "text": {}
+                    }
+                }
+            },
+            size = 5)
+
 
     def selectByQuery(self, indexname, query={}):
         res = self.es.search(index = indexname, body={"query": {"match_all": query}})
@@ -91,7 +114,7 @@ class ElasticsearchDDL(object):
     def selectOneByID(self, indexname, doctype, id):
         result = self.es.get(index=indexname, doc_type=doctype, id=id)['_source']
 
-    def indexEsists(self, indexname):
+    def indexExists(self, indexname):
         return self.es.indices.exists(index=indexname)
 
 if __name__ == "__main__":
@@ -104,23 +127,14 @@ if __name__ == "__main__":
     if fileType == "csv":
         sentences, words, data = utils.readCsvFiles(files)
         es = ElasticsearchDDL()
-        if es.indexEsists("test-index"):
+        if es.indexExists("test-index"):
             es.deleteIndex("test-index")
 
         es.createIndex(indexname="test-index")
-
         es.bulkInsert(indexname="test-index", doctype="_doc", data=data, no=10000)
-        
 
         res = es.selectByQuery(indexname="test-index")
-        print(res)
-
         res = es.selectOneByID(indexname="test-index", doctype="_doc", id=100)
-        print(res)
-
-
         res = es.searchByCollocation(indexname="test-index", w1="statistics", w2="demonstrated")
-        print(res)
-        
         es.deleteIndex("test-index")
-        
+
